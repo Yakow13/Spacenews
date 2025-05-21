@@ -1,6 +1,7 @@
 package cz.weinzettl.spacenews.app
 
 import android.app.Application
+import cz.weinzettl.spacenews.BuildConfig
 import cz.weinzettl.spacenews.app.di.spaceDi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -12,7 +13,7 @@ class SpaceNewsApp : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidLogger(Level.ERROR)
+            androidLogger(level = if (BuildConfig.DEBUG) Level.DEBUG else Level.ERROR)
             androidContext(this@SpaceNewsApp)
             modules(spaceDi)
         }
