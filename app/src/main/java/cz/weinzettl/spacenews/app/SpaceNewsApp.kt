@@ -1,7 +1,7 @@
 package cz.weinzettl.spacenews.app
 
 import android.app.Application
-import cz.weinzettl.spacenews.app.di.allDi
+import cz.weinzettl.spacenews.app.di.spaceDi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -14,7 +14,7 @@ class SpaceNewsApp : Application() {
         startKoin {
             androidLogger(Level.ERROR)
             androidContext(this@SpaceNewsApp)
-            modules(allDi)
+            modules(spaceDi)
         }
     }
 }
