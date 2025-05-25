@@ -10,6 +10,9 @@ class DefaultGetArticleUrlUseCase(
     private val dispatcher: Dispatchers
 ) : GetArticleUrlUseCase {
     override suspend fun invoke(articleId: Int): Result<String> = withContext(dispatcher.io) {
-
+        runCatching {
+            val url = repository.getArticleUrlById(articleId)
+            requireNotNull(url)
+        }
     }
 }
