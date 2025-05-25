@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Spacenews</string>
+    <string name="app_name">Space news</string>
+    <string name="error_no_internet">No internet connection. Please check your network settings.</string>
+    <string name="error_connect_exception">Could not connect to the server. Please try again later.</string>
+    <string name="error_socket_timeout">The connection timed out. Please try again.</string>
+    <string name="error_io_exception">A network error occurred. Please try again.</string>
+    <string name="error_sqlite_exception">A database error occurred. Please try restarting the app.</string>
+    <string name="error_unexpected">An unexpected error occurred. Please try again.</string>
 </resources>

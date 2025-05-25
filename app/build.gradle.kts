@@ -48,7 +48,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
 
-    // Compose
+    // UI
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
@@ -60,24 +60,32 @@ dependencies {
 
     // Paging
     implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
 
-    // Koin
+    // DI
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
 
-    // Retrofit
+    // Network
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.kotlinx.serialization)
     implementation(libs.okhttp3.logging.interceptor)
 
-    // Kotlin Serialization
+    // Serialization
     implementation(libs.kotlinx.serialization.json)
 
     // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
     ksp(libs.androidx.room.compiler)
+
+    // Coil
+    implementation(libs.coil.compose)
+
+    // Logger
+    implementation(libs.timber)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
