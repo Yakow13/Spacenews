@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -29,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -41,7 +43,7 @@ import androidx.paging.compose.itemKey
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import cz.weinzettl.spacenews.R
-import cz.weinzettl.spacenews.feature.homepage.model.Article
+import cz.weinzettl.spacenews.feature.article.model.Article
 import cz.weinzettl.spacenews.feature.homepage.presentation.HomePageViewModel
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiEvent
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiState
@@ -138,36 +140,34 @@ fun ArticleItem(article: Article, onClick: () -> Unit) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             val imagePainter = rememberAsyncImagePainter(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(article.imageUrl) // The URL of the image
-                    .crossfade(true) // Enable crossfade animation
+                    .data(article.imageUrl)
+                    .crossfade(true)
                     .build()
             )
-            // Image on the left (Square)
             Image(
-                // Replace with your actual image resource or URL
                 painter = imagePainter,
                 contentDescription = "Article Image",
                 modifier = Modifier
-                    .size(100.dp), // Square image
-                contentScale = ContentScale.Crop // Adjust as needed
+                    .clip(RoundedCornerShape(8.dp))
+                    .size(120.dp),
+                contentScale = ContentScale.Crop
             )
 
-            Spacer(modifier = Modifier.width(8.dp)) // Space between image and divider
+            Spacer(modifier = Modifier.width(8.dp))
 
-            // Divider
             VerticalDivider(
                 modifier = Modifier
                     .width(1.dp)
                     .padding(vertical = 4.dp)
             )
 
-            Spacer(modifier = Modifier.width(8.dp)) // Space between divider and text
+            Spacer(modifier = Modifier.width(8.dp))
 
-            // Title and Summary on the right
             Column {
                 Text(text = article.title, style = SpaceNewsTheme.typography.titleMedium)
                 Text(
@@ -175,10 +175,6 @@ fun ArticleItem(article: Article, onClick: () -> Unit) {
                     style = SpaceNewsTheme.typography.bodyMedium,
                     maxLines = 3
                 )
-                article.publishedAt.let {
-                    Text(text = "Published: $it", style = SpaceNewsTheme.typography.bodySmall)
-                }
-                // You can add more UI elements like news site, etc.
             }
         }
     }
@@ -199,6 +195,6 @@ fun HomeTopAppBar() {
 fun Preview() {
     HomePageContent(
         uiState = HomePageUiState.Loading,
-        onArticleClick = {}
+        onArticleClick = { }
     )
 }

@@ -6,4 +6,6 @@
     <string name="error_io_exception">A network error occurred. Please try again.</string>
     <string name="error_sqlite_exception">A database error occurred. Please try restarting the app.</string>
     <string name="error_unexpected">An unexpected error occurred. Please try again.</string>
+    <string name="back">Back</string>
+    <string name="refresh">Refresh</string>
 </resources>

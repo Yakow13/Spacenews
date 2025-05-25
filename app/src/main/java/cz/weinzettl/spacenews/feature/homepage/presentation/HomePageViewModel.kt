@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import cz.weinzettl.spacenews.feature.homepage.domain.GetArticlesUseCase
-import cz.weinzettl.spacenews.feature.homepage.model.Article
+import cz.weinzettl.spacenews.feature.article.domain.GetArticlesUseCase
+import cz.weinzettl.spacenews.feature.article.model.Article
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiEvent
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiState
 import kotlinx.coroutines.channels.Channel

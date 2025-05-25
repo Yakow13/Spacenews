@@ -18,6 +18,7 @@ room = "2.7.1"
 kspVersion = "2.1.21-2.0.1"
 coil = "2.7.0"
 timber = "5.0.1"
+browser = "1.8.0"
 
 [libraries]
 #AndroidX
@@ -69,6 +70,7 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

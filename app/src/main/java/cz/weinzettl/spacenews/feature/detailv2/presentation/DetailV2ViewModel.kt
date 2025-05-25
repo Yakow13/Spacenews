@@ -1,11 +1,11 @@
-package cz.weinzettl.spacenews.feature.detail.presentation
+package cz.weinzettl.spacenews.feature.detailv2.presentation
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import cz.weinzettl.spacenews.feature.article.domain.GetArticleDetailUseCase
-import cz.weinzettl.spacenews.feature.detail.presentation.model.DetailUiState
+import cz.weinzettl.spacenews.feature.article.domain.GetArticleDetailV2UseCase
+import cz.weinzettl.spacenews.feature.detailv2.presentation.model.DetailV2UiState
 import cz.weinzettl.spacenews.sdk.navigation.Destination
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,23 +14,23 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class DetailViewModel(
+class DetailV2ViewModel(
     savedStateHandle: SavedStateHandle,
-    private val getArticleDetailUseCase: GetArticleDetailUseCase
+    private val getArticleDetailUseCase: GetArticleDetailV2UseCase
 ) : ViewModel() {
     private val articleId: Int = savedStateHandle.toRoute<Destination.Detail>().articleId
-    private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Empty)
-    val uiState: StateFlow<DetailUiState> = _uiState
+    private val _uiState = MutableStateFlow<DetailV2UiState>(DetailV2UiState.Empty)
+    val uiState: StateFlow<DetailV2UiState> = _uiState
         .onStart {
             loadData()
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), DetailUiState.Empty)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), DetailV2UiState.Empty)
 
     private fun loadData() {
         viewModelScope.launch {
             val detailResult = getArticleDetailUseCase(articleId)
             detailResult.fold(
                 onSuccess = {
-                    val newState = DetailUiState.Idle(it.url)
+                    val newState = DetailV2UiState.Idle(it)
                     _uiState.emit(newState)
                 },
                 onFailure = {
