@@ -9,7 +9,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.paging.map
 import androidx.room.withTransaction
-import cz.weinzettl.spacenews.feature.article.data.HomePageRepository
+import cz.weinzettl.spacenews.feature.article.data.ArticleRepository
 import cz.weinzettl.spacenews.feature.article.model.Article
 import cz.weinzettl.spacenews.feature.article.model.ArticleDetail
 import cz.weinzettl.spacenews.feature.article.model.ArticleDetailV2
@@ -27,26 +27,26 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalPagingApi::class)
-class DefaultHomePageRepository(
+class DefaultArticleRepository(
     private val apiService: ArticleApiService,
     private val database: SpaceNewsDatabase,
     private val articleDao: ArticleDao,
     private val remoteKeyDao: RemoteKeyDao
-) : HomePageRepository, RemoteMediator<Int, ArticleEntity>() {
+) : ArticleRepository, RemoteMediator<Int, ArticleEntity>() {
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getArticlesStream(): Flow<PagingData<Article>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20, // Number of items to load per page from API
+                pageSize = PAGE_SIZE, // Number of items to load per page from API
                 enablePlaceholders = false, // Set to true if you want placeholders for unloaded items
-                prefetchDistance = 5 // How many items to fetch before the current view
+                prefetchDistance = PREFETCH_DISTANCE // How many items to fetch before the current view
             ),
             remoteMediator = this,
             pagingSourceFactory = { database.articleDao().getPagingSource() }
 
-        ).flow.map {
-            it.map { it.toDomain() }
+        ).flow.map { pagingEntity ->
+            pagingEntity.map { it.toDomain() }
         }
     }
 
@@ -136,5 +136,7 @@ class DefaultHomePageRepository(
 
     companion object {
         private const val STARTING_OFFSET_INDEX = 0
+        private const val PAGE_SIZE = 20
+        private const val PREFETCH_DISTANCE = 5
     }
 }

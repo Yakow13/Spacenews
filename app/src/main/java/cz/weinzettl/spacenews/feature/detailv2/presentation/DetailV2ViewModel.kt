@@ -7,6 +7,7 @@ import androidx.navigation.toRoute
 import cz.weinzettl.spacenews.feature.article.domain.GetArticleDetailV2UseCase
 import cz.weinzettl.spacenews.feature.detailv2.presentation.model.DetailV2UiState
 import cz.weinzettl.spacenews.sdk.navigation.Destination
+import cz.weinzettl.spacenews.sdk.viewmodel.extension.WhileSubscribed5000
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +24,7 @@ class DetailV2ViewModel(
     val uiState: StateFlow<DetailV2UiState> = _uiState
         .onStart {
             loadData()
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), DetailV2UiState.Empty)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed5000(), DetailV2UiState.Empty)
 
     private fun loadData() {
         viewModelScope.launch {

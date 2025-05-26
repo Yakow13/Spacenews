@@ -1,6 +1,6 @@
 package cz.weinzettl.spacenews.feature.article.domain.impl
 
-import cz.weinzettl.spacenews.feature.article.data.HomePageRepository
+import cz.weinzettl.spacenews.feature.article.data.ArticleRepository
 import cz.weinzettl.spacenews.feature.article.domain.GetArticleDetailV2UseCase
 import cz.weinzettl.spacenews.feature.article.model.ArticleDetailV2
 import cz.weinzettl.spacenews.sdk.concurency.service.Dispatchers
@@ -8,7 +8,7 @@ import cz.weinzettl.spacenews.sdk.logger.logger
 import kotlinx.coroutines.withContext
 
 class DefaultGetArticleDetailV2UseCase(
-    private val repository: HomePageRepository,
+    private val repository: ArticleRepository,
     private val dispatcher: Dispatchers
 ) : GetArticleDetailV2UseCase {
 

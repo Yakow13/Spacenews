@@ -12,7 +12,9 @@ class AuthorNameListConverter {
         if (authors.isNullOrEmpty()) {
             return null
         }
-        return authors.joinToString(separator = delimiter)
+        return authors.joinToString(separator = delimiter) { authorEntity ->
+            authorEntity.name
+        }
     }
 
     @TypeConverter

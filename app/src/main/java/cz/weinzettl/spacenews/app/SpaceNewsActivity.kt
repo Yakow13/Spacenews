@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import cz.weinzettl.spacenews.sdk.navigation.SpaceNewsNavHost
-import cz.weinzettl.spacenews.sdk.theme.SpaceNewsTheme
+import cz.weinzettl.spacenews.sdk.theme.ui.SpaceNewsTheme
 
 class SpaceNewsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

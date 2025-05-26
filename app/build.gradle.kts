@@ -82,6 +82,9 @@ dependencies {
     implementation(libs.androidx.browser)
     ksp(libs.androidx.room.compiler)
 
+    // Datastore
+    implementation(libs.androidx.datastore.core.android)
+
     // Coil
     implementation(libs.coil.compose)
 

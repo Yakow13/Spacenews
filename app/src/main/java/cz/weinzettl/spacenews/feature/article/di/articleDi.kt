@@ -1,7 +1,7 @@
 package cz.weinzettl.spacenews.feature.article.di
 
-import cz.weinzettl.spacenews.feature.article.data.HomePageRepository
-import cz.weinzettl.spacenews.feature.article.data.impl.DefaultHomePageRepository
+import cz.weinzettl.spacenews.feature.article.data.ArticleRepository
+import cz.weinzettl.spacenews.feature.article.data.impl.DefaultArticleRepository
 import cz.weinzettl.spacenews.feature.article.domain.GetArticleDetailUseCase
 import cz.weinzettl.spacenews.feature.article.domain.GetArticleDetailV2UseCase
 import cz.weinzettl.spacenews.feature.article.domain.GetArticlesUseCase
@@ -21,7 +21,7 @@ val articleDi = module {
 
     factoryOf(::DefaultGetArticleDetailV2UseCase) bind GetArticleDetailV2UseCase::class
 
-    factoryOf(::DefaultHomePageRepository) bind HomePageRepository::class
+    factoryOf(::DefaultArticleRepository) bind ArticleRepository::class
 
     factory<ArticleApiService> {
         get<Retrofit>().create(ArticleApiService::class.java)

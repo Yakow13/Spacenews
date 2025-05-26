@@ -7,6 +7,7 @@ import cz.weinzettl.spacenews.feature.homepage.di.homePageDi
 import cz.weinzettl.spacenews.sdk.concurency.di.concurrencyDi
 import cz.weinzettl.spacenews.sdk.database.di.databaseDi
 import cz.weinzettl.spacenews.sdk.network.di.networkDi
+import cz.weinzettl.spacenews.sdk.storage.di.storageDi
 import org.koin.core.module.Module
 
 val spaceDi: List<Module> =
@@ -18,4 +19,5 @@ val spaceDi: List<Module> =
         detailV2Di,
         homePageDi,
         networkDi,
+        storageDi,
     )

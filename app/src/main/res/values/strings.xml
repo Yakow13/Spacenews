@@ -8,4 +8,6 @@
     <string name="error_unexpected">An unexpected error occurred. Please try again.</string>
     <string name="back">Back</string>
     <string name="refresh">Refresh</string>
+    <string name="settings_content_description">settings</string>
+    <string name="share_article_via">Share article via</string>
 </resources>

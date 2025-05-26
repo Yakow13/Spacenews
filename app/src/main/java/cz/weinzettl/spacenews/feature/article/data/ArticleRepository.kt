@@ -6,7 +6,7 @@ import cz.weinzettl.spacenews.feature.article.model.ArticleDetail
 import cz.weinzettl.spacenews.feature.article.model.ArticleDetailV2
 import kotlinx.coroutines.flow.Flow
 
-interface HomePageRepository {
+interface ArticleRepository {
     fun getArticlesStream(): Flow<PagingData<Article>>
 
     suspend fun getArticleDetail(id: Int): ArticleDetail?

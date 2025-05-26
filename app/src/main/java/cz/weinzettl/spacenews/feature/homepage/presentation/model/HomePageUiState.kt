@@ -6,6 +6,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 sealed interface HomePageUiState {
-    data class Idle(val articles: Flow<PagingData<Article>> = emptyFlow()) : HomePageUiState
-    data object Loading : HomePageUiState
+    val isEnhancedDesignOn: Boolean
+
+    data class Idle(
+        val articles: Flow<PagingData<Article>> = emptyFlow(),
+        override val isEnhancedDesignOn: Boolean = false
+    ) : HomePageUiState
+
+    data object Loading : HomePageUiState {
+        override val isEnhancedDesignOn = false
+    }
 }

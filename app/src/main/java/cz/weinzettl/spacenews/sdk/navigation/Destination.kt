@@ -9,4 +9,7 @@ sealed interface Destination {
 
     @Serializable
     data class Detail(val articleId: Int) : Destination
+
+    @Serializable
+    data class DetailV2(val articleId: Int) : Destination
 }
