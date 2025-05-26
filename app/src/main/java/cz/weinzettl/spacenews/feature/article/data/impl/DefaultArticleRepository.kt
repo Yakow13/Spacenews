@@ -55,7 +55,8 @@ class DefaultArticleRepository(
         try {
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> {
-                    STARTING_OFFSET_INDEX
+                    val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
+                    remoteKeys?.nextKey?.minus(state.config.pageSize) ?: STARTING_OFFSET_INDEX
                 }
 
                 LoadType.PREPEND -> {
@@ -106,6 +107,14 @@ class DefaultArticleRepository(
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, ArticleEntity>): RemoteKey? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { article -> remoteKeyDao.getRemoteKeyById(article.id) }
+    }
+
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, ArticleEntity>): RemoteKey? {
+        return state.anchorPosition?.let { position ->
+            state.closestItemToPosition(position)?.id?.let { articleId ->
+                remoteKeyDao.getRemoteKeyById(articleId)
+            }
+        }
     }
 
     override suspend fun getArticleDetail(id: Int): ArticleDetail? {

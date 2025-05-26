@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -119,34 +120,7 @@ fun HomePageContent(
             }
 
             is HomePageUiState.Idle -> {
-                val articles = state.articles.collectAsLazyPagingItems()
-                val isPagingRefreshing = articles.loadState.refresh is LoadState.Loading
-                PullToRefreshBox(
-                    isRefreshing = isPagingRefreshing,
-                    onRefresh = {
-                        if (!isPagingRefreshing) {
-                            articles.refresh()
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                ) {
-                    LazyColumn {
-                        items(
-                            count = articles.itemCount,
-                            key = articles.itemKey { it.id },
-                            contentType = articles.itemContentType { "article" }
-                        ) { index ->
-                            val article = articles[index]
-                            if (article != null) {
-                                ArticleItem(article = article) {
-                                    onArticleClick(article.id)
-                                }
-                            }
-                        }
-                    }
-                }
+                ArticleListContent(state, paddingValues, onArticleClick)
             }
 
             HomePageUiState.Empty -> {
@@ -156,6 +130,43 @@ fun HomePageContent(
     }
 }
 
+@Composable
+fun ArticleListContent(
+    state: HomePageUiState.Idle,
+    paddingValues: PaddingValues,
+    onArticleClick: (Int) -> Unit
+) {
+    val articles = state.articles.collectAsLazyPagingItems()
+    var isRefreshing by remember { mutableStateOf(false) }
+    val isPagingRefreshing = articles.loadState.refresh is LoadState.Loading
+    PullToRefreshBox(
+        isRefreshing = isPagingRefreshing,
+        onRefresh = {
+            if (!isPagingRefreshing) {
+                //isRefreshing = true
+                articles.refresh()
+            }
+        },
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+    ) {
+        LazyColumn {
+            items(
+                count = articles.itemCount,
+                key = articles.itemKey { it.id },
+                contentType = articles.itemContentType { "article" }
+            ) { index ->
+                val article = articles[index]
+                if (article != null) {
+                    ArticleItem(article = article) {
+                        onArticleClick(article.id)
+                    }
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun ArticleItem(article: Article, onClick: () -> Unit) {

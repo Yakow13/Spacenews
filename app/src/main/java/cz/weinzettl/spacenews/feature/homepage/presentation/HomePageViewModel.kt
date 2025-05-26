@@ -3,6 +3,7 @@ package cz.weinzettl.spacenews.feature.homepage.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import cz.weinzettl.spacenews.feature.article.domain.GetArticlesUseCase
 import cz.weinzettl.spacenews.feature.article.domain.model.Article
 import cz.weinzettl.spacenews.feature.homepage.domain.GetIsEnhancedDesignOnUseCase
@@ -64,7 +65,7 @@ class HomePageViewModel(
         }.flowOn(dispatchers.io)
 
     private suspend fun FlowCollector<HomePageUiState>.handleArticleSuccess(articlesFlow: Flow<PagingData<Article>>) {
-        val cachedArticlesFlow = articlesFlow
+        val cachedArticlesFlow = articlesFlow.cachedIn(viewModelScope)
         emit(HomePageUiState.Idle(cachedArticlesFlow))
     }
 
