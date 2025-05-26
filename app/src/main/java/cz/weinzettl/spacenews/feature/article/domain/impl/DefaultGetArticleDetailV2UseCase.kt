@@ -12,7 +12,6 @@ class DefaultGetArticleDetailV2UseCase(
     private val dispatcher: Dispatchers
 ) : GetArticleDetailV2UseCase {
 
-
     override suspend fun invoke(articleId: Int): Result<ArticleDetailV2> =
         withContext(dispatcher.io) {
             runCatching {

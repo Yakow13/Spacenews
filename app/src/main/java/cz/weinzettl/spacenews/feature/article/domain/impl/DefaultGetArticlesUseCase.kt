@@ -7,8 +7,9 @@ import cz.weinzettl.spacenews.feature.article.domain.model.Article
 import cz.weinzettl.spacenews.sdk.logger.logger
 import kotlinx.coroutines.flow.Flow
 
-class DefaultGetArticlesUseCase(private val articleRepository: ArticleRepository) :
-    GetArticlesUseCase {
+class DefaultGetArticlesUseCase(
+    private val articleRepository: ArticleRepository
+) : GetArticlesUseCase {
 
     override operator fun invoke(): Result<Flow<PagingData<Article>>> =
         runCatching {

@@ -13,8 +13,7 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(articles: List<ArticleEntity>)
 
-    // This method returns a PagingSource for Room to integrate with Paging 3
-    @Query("SELECT * FROM articles ORDER BY publishedAt DESC") // Order by published date
+    @Query("SELECT * FROM articles ORDER BY publishedAt DESC")
     fun getPagingSource(): PagingSource<Int, ArticleEntity>
 
     @Query("SELECT * FROM articles WHERE id = :id")

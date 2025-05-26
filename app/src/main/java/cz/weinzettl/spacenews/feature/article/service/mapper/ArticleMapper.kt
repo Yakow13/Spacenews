@@ -25,11 +25,13 @@ object ArticleMapper {
             )
         }
 
-    fun ArticleEntity.toDomain(): Article =
-        Article(
-            id = id,
-            title = title,
-            summary = summary,
-            imageUrl = imageUrl,
-        )
+    fun toDomain(articleEntity: ArticleEntity): Article =
+        articleEntity.run {
+            Article(
+                id = id,
+                title = title,
+                summary = summary,
+                imageUrl = imageUrl,
+            )
+        }
 }

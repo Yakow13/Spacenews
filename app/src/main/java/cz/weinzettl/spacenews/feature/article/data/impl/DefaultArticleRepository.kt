@@ -19,7 +19,6 @@ import cz.weinzettl.spacenews.feature.article.service.local.model.RemoteKey
 import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleDetailMapper.toDetailDomain
 import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleDetailMapper.toDetailDomainV2
 import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleMapper
-import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleMapper.toDomain
 import cz.weinzettl.spacenews.feature.article.service.remote.api.ArticleApiService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -31,19 +30,18 @@ class DefaultArticleRepository(
     private val remoteKeyDao: RemoteKeyDao
 ) : ArticleRepository, RemoteMediator<Int, ArticleEntity>() {
 
-    @OptIn(ExperimentalPagingApi::class)
     override fun getArticlesStream(): Flow<PagingData<Article>> {
         return Pager(
             config = PagingConfig(
-                pageSize = PAGE_SIZE, // Number of items to load per page from API
-                enablePlaceholders = false, // Set to true if you want placeholders for unloaded items
-                prefetchDistance = PREFETCH_DISTANCE // How many items to fetch before the current view
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false,
+                prefetchDistance = PREFETCH_DISTANCE
             ),
             remoteMediator = this,
             pagingSourceFactory = { articleDao.getPagingSource() }
 
         ).flow.map { pagingEntity ->
-            pagingEntity.map { it.toDomain() }
+            pagingEntity.map(ArticleMapper::toDomain)
         }
     }
 
@@ -52,36 +50,31 @@ class DefaultArticleRepository(
         state: PagingState<Int, ArticleEntity>
     ): MediatorResult =
         try {
-            // Determine the page offset to request from the API based on LoadType
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> {
-                    // Start refresh at the beginning of the list, or from a specific key if needed
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                     remoteKeys?.nextKey?.minus(state.config.pageSize) ?: STARTING_OFFSET_INDEX
                 }
 
                 LoadType.PREPEND -> {
-                    // Prepend means loading data to the beginning (older data)
                     val remoteKeys = getRemoteKeyForFirstItem(state)
-                        ?: return MediatorResult.Success(endOfPaginationReached = true) // No more data to prepend
+                        ?: return MediatorResult.Success(endOfPaginationReached = true)
                     remoteKeys.prevKey
-                        ?: return MediatorResult.Success(endOfPaginationReached = true) // No previous page
+                        ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
 
                 LoadType.APPEND -> {
-                    // Append means loading data to the end (newer data)
                     val remoteKeys = getRemoteKeyForLastItem(state)
-                        ?: return MediatorResult.Success(endOfPaginationReached = false) // Initial load, not end
+                        ?: return MediatorResult.Success(endOfPaginationReached = false)
                     remoteKeys.nextKey
-                        ?: return MediatorResult.Success(endOfPaginationReached = true) // No more data to append
+                        ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
             }
 
-            // Fetch articles from the API
             val apiResponse = apiService.getArticles(loadKey, state.config.pageSize)
             val articles = apiResponse.results
             val endOfPaginationReached =
-                articles.isEmpty() || (apiResponse.next == null && apiResponse.previous != null) // Check if 'next' is null for end
+                articles.isEmpty() || (apiResponse.next == null && apiResponse.previous != null)
 
             if (loadType == LoadType.REFRESH) {
                 remoteKeyDao.clearAll()
@@ -92,12 +85,11 @@ class DefaultArticleRepository(
             val nextOffset =
                 if (endOfPaginationReached) null else loadKey + state.config.pageSize
 
-            // Insert new RemoteKeys for each article
             val keys = articles.map { article ->
                 RemoteKey(articleId = article.id, prevKey = prevOffset, nextKey = nextOffset)
             }
             remoteKeyDao.insertOrReplaceAll(keys)
-            articleDao.insertAll(articles.map(ArticleMapper::toEntity)) // Insert articles into Room
+            articleDao.insertAll(articles.map(ArticleMapper::toEntity))
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
             MediatorResult.Error(exception)

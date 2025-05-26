@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.sdk.navigation
+package cz.weinzettl.spacenews.app.navigation
 
 import kotlinx.serialization.Serializable
 

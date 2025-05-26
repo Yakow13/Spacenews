@@ -3,7 +3,6 @@ package cz.weinzettl.spacenews.feature.article.service.mapper
 import cz.weinzettl.spacenews.feature.article.domain.model.ArticleDetail
 import cz.weinzettl.spacenews.feature.article.domain.model.ArticleDetailV2
 import cz.weinzettl.spacenews.feature.article.service.local.model.ArticleEntity
-import cz.weinzettl.spacenews.feature.article.service.mapper.AuthorMapper.toDomain
 
 object ArticleDetailMapper {
 
@@ -21,7 +20,7 @@ object ArticleDetailMapper {
             summary = summary,
             newsSite = newsSite,
             publishedAt = publishedAt,
-            authors = authors.map { it.toDomain() },
+            authors = authors.map(AuthorMapper::toDomain),
         )
 
 }

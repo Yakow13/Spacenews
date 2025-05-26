@@ -8,9 +8,9 @@ data class PaginatedArticleResponse(
     @SerialName("count")
     val count: Int,
     @SerialName("next")
-    val next: String?, // Nullable if it can be absent
+    val next: String?,
     @SerialName("previous")
-    val previous: String?, // Nullable if it can be absent
+    val previous: String?,
     @SerialName("results")
     val results: List<ArticleResponse>
 )

@@ -46,6 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
@@ -57,6 +58,7 @@ import cz.weinzettl.spacenews.feature.homepage.presentation.HomePageViewModel
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiEvent
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiState
 import cz.weinzettl.spacenews.sdk.theme.SpaceNewsTheme
+import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -250,9 +252,21 @@ fun HomeTopAppBar(
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
+    val articles = (1..5).map {
+        Article(
+            id = it,
+            title = "Title $it",
+            imageUrl = "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/article_images/soyuz_25202.1b_2520rocket_2520lifts_2520off_2520 carrying_2520glonass-k2_2520no._image_20230807100854.jpeg",
+            summary = "Summary $it. ".repeat(5)
+        )
+    }
+    val mockUiState = HomePageUiState.Idle(
+        articles = flowOf(PagingData.from(articles))
+    )
+
     HomePageContent(
-        uiState = HomePageUiState.Loading,
-        isEnhanced = false,
+        uiState = mockUiState,
+        isEnhanced = true,
         onArticleClick = { },
         onEnhancedChange = { }
     )

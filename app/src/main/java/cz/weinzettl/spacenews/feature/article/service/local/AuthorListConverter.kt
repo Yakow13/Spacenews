@@ -5,14 +5,12 @@ import cz.weinzettl.spacenews.feature.article.service.local.model.AuthorEntity
 
 class AuthorNameListConverter {
 
-    private val delimiter = ","
-
     @TypeConverter
     fun fromAuthorList(authors: List<AuthorEntity>?): String? {
         if (authors.isNullOrEmpty()) {
             return null
         }
-        return authors.joinToString(separator = delimiter) { authorEntity ->
+        return authors.joinToString(separator = DELIMITER) { authorEntity ->
             authorEntity.name
         }
     }
@@ -22,11 +20,16 @@ class AuthorNameListConverter {
         if (data.isNullOrBlank()) {
             return emptyList()
         }
-        return data.split(delimiter)
+        return data.split(DELIMITER)
             .map { it.trim() }
             .filter { it.isNotEmpty() }
             .map {
                 AuthorEntity(it)
             }
+    }
+
+    companion object {
+        private const val DELIMITER = ","
+
     }
 }

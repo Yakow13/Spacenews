@@ -4,8 +4,9 @@ import cz.weinzettl.spacenews.feature.article.domain.model.Author
 import cz.weinzettl.spacenews.feature.article.service.local.model.AuthorEntity
 
 object AuthorMapper {
-    fun AuthorEntity.toDomain(): Author =
+
+    fun toDomain(authorEntity: AuthorEntity): Author =
         Author(
-            name = name
+            name = authorEntity.name
         )
 }

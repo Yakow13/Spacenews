@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.sdk.navigation
+package cz.weinzettl.spacenews.app.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost

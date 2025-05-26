@@ -50,21 +50,16 @@ fun DetailScreen(
 
             when (val state = screenState) {
                 is DetailUiState.Idle -> {
-                    WebViewComponent(url = state.articleUrl, onLoadingStateChange = { isLoading ->
-//                        screenState = if (isLoading) {
-//                            DetailScreenState.Loading
-//                        } else {
-//                            DetailScreenState.Idle
-//                        }
-                    })
-
+                    WebViewComponent(url = state.articleUrl)
                 }
 
                 DetailUiState.Loading -> {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
-                //FIXME
-                DetailUiState.Empty -> {}
+
+                DetailUiState.Empty -> {
+                    Text(text = "Nothing to show :(")
+                }
             }
         }
     }
@@ -72,21 +67,16 @@ fun DetailScreen(
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun WebViewComponent(url: String, onLoadingStateChange: (Boolean) -> Unit) {
+fun WebViewComponent(url: String) {
     AndroidView(factory = { context ->
         WebView(context).apply {
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            webViewClient = object : WebViewClient() {
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    onLoadingStateChange(false)
-                }
-            }
+            webViewClient = WebViewClient()
             settings.javaScriptEnabled = true
             loadUrl(url)
-            onLoadingStateChange(true) // Initial loading state
         }
     })
 }
@@ -105,16 +95,6 @@ fun DetailTopAppBar(onNavigateUp: () -> Unit) {
                     contentDescription = stringResource(R.string.back)
                 )
             }
-        },
-//        actions = {
-//            if (uiState.articleUrl != null && !uiState.isLoading) {
-//                IconButton(onClick = { webView?.reload() }) {
-//                    Icon(
-//                        Icons.Filled.Refresh,
-//                        contentDescription = stringResource(R.string.refresh)
-//                    )
-//                }
-//            }
-//        }
+        }
     )
 }
