@@ -3,17 +3,20 @@ package cz.weinzettl.spacenews.feature.homepage.presentation.model
 import androidx.paging.PagingData
 import cz.weinzettl.spacenews.feature.article.domain.model.Article
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 
 sealed interface HomePageUiState {
     val isEnhancedDesignOn: Boolean
 
     data class Idle(
-        val articles: Flow<PagingData<Article>> = emptyFlow(),
+        val articles: Flow<PagingData<Article>>,
         override val isEnhancedDesignOn: Boolean = false
     ) : HomePageUiState
 
     data object Loading : HomePageUiState {
         override val isEnhancedDesignOn = false
+    }
+
+    data object Empty : HomePageUiState {
+        override val isEnhancedDesignOn: Boolean = false
     }
 }

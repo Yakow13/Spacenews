@@ -22,11 +22,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cz.weinzettl.spacenews.R
 import cz.weinzettl.spacenews.feature.detail.presentation.DetailViewModel
 import cz.weinzettl.spacenews.feature.detail.presentation.model.DetailUiState
+import cz.weinzettl.spacenews.sdk.theme.SpaceNewsTheme
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +60,7 @@ fun DetailScreen(
                 }
 
                 DetailUiState.Empty -> {
-                    Text(text = "Nothing to show :(")
+                    Text(stringResource(R.string.empty_placeholder))
                 }
             }
         }
@@ -86,7 +88,11 @@ fun WebViewComponent(url: String) {
 fun DetailTopAppBar(onNavigateUp: () -> Unit) {
     CenterAlignedTopAppBar(
         title = {
-            Text(text = stringResource(id = R.string.app_name))
+            Text(
+                text = stringResource(id = R.string.app_name),
+                fontWeight = FontWeight.Bold,
+                color = SpaceNewsTheme.color.primary
+            )
         },
         navigationIcon = {
             IconButton(onClick = onNavigateUp) {

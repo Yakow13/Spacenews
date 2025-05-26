@@ -43,9 +43,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
@@ -100,8 +102,6 @@ fun HomePageContent(
     onArticleClick: (Int) -> Unit,
     onEnhancedChange: (Boolean) -> Unit,
 ) {
-    val isRefreshing = uiState is HomePageUiState.Loading
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { HomeTopAppBar(isEnhanced, onEnhancedChange) },
@@ -120,10 +120,13 @@ fun HomePageContent(
 
             is HomePageUiState.Idle -> {
                 val articles = state.articles.collectAsLazyPagingItems()
+                val isPagingRefreshing = articles.loadState.refresh is LoadState.Loading
                 PullToRefreshBox(
-                    isRefreshing = isRefreshing,
+                    isRefreshing = isPagingRefreshing,
                     onRefresh = {
-                        articles.refresh()
+                        if (!isPagingRefreshing) {
+                            articles.refresh()
+                        }
                     },
                     modifier = Modifier
                         .fillMaxSize()
@@ -144,6 +147,10 @@ fun HomePageContent(
                         }
                     }
                 }
+            }
+
+            HomePageUiState.Empty -> {
+                Text(stringResource(R.string.empty_placeholder))
             }
         }
     }
@@ -211,7 +218,11 @@ fun HomeTopAppBar(
 
     CenterAlignedTopAppBar(
         title = {
-            Text(text = stringResource(id = R.string.app_name))
+            Text(
+                text = stringResource(id = R.string.app_name),
+                fontWeight = FontWeight.Bold,
+                color = SpaceNewsTheme.color.primary
+            )
         },
         actions = {
             IconButton(onClick = { showMenu = !showMenu }) {

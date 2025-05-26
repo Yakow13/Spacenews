@@ -5,9 +5,11 @@ package cz.weinzettl.spacenews.feature.detailv2.ui
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,6 +25,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -96,13 +99,24 @@ fun DetailV2Screen(
                 .padding(16.dp)
         ) {
             when (val state = uiState) {
-                DetailV2UiState.Empty -> {}
+                DetailV2UiState.Empty -> {
+                    Text(stringResource(R.string.empty_placeholder))
+                }
+
                 is DetailV2UiState.Idle -> {
                     DetailV2Content(state.articleDetail)
                 }
 
-                //FIXME
-                DetailV2UiState.Loading -> {}
+                DetailV2UiState.Loading -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
             }
         }
     }
@@ -126,14 +140,12 @@ private fun DetailV2Content(article: ArticleDetailV2) {
         )
     }
 
-    // Article Title
     Text(
         text = article.title,
         style = SpaceNewsTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
         modifier = Modifier.padding(bottom = 12.dp)
     )
 
-    // Author(s)
     if (article.authors.isNotEmpty()) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -192,7 +204,11 @@ private fun DetailV2Content(article: ArticleDetailV2) {
 private fun DetailV2TopAppBar(onNavigateUp: () -> Unit, onShareClick: () -> Unit) {
     CenterAlignedTopAppBar(
         title = {
-            Text(text = stringResource(id = R.string.app_name))
+            Text(
+                text = stringResource(id = R.string.app_name),
+                fontWeight = FontWeight.Bold,
+                color = SpaceNewsTheme.color.primary
+            )
         },
         navigationIcon = {
             IconButton(onClick = onNavigateUp) {
@@ -203,7 +219,6 @@ private fun DetailV2TopAppBar(onNavigateUp: () -> Unit, onShareClick: () -> Unit
             }
         },
         actions = {
-            // Share Button
             IconButton(onClick = onShareClick) {
                 Icon(Icons.Default.Share, contentDescription = "Share article")
             }

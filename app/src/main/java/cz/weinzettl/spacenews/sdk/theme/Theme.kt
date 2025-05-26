@@ -8,6 +8,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
@@ -41,11 +42,14 @@ fun SpaceNewsTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalSpaceNewsColorScheme provides colorScheme) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
+
 }
 
 object SpaceNewsTheme {
@@ -54,6 +58,14 @@ object SpaceNewsTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalSpaceNewsTypography.current
+
+    val color: androidx.compose.material3.ColorScheme
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalSpaceNewsColorScheme.current
 }
 
 private val LocalSpaceNewsTypography = staticCompositionLocalOf { Typography }
+
+private val LocalSpaceNewsColorScheme = staticCompositionLocalOf { LightColorScheme }
+

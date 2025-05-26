@@ -20,14 +20,17 @@ import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleDetailMapper
 import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleDetailMapper.toDetailDomainV2
 import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleMapper
 import cz.weinzettl.spacenews.feature.article.service.remote.api.ArticleApiService
+import cz.weinzettl.spacenews.sdk.concurency.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalPagingApi::class)
 class DefaultArticleRepository(
     private val apiService: ArticleApiService,
     private val articleDao: ArticleDao,
-    private val remoteKeyDao: RemoteKeyDao
+    private val remoteKeyDao: RemoteKeyDao,
+    private val dispatchers: Dispatchers,
 ) : ArticleRepository, RemoteMediator<Int, ArticleEntity>() {
 
     override fun getArticlesStream(): Flow<PagingData<Article>> {
@@ -48,26 +51,25 @@ class DefaultArticleRepository(
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ArticleEntity>
-    ): MediatorResult =
+    ): MediatorResult = withContext(dispatchers.io) {
         try {
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> {
-                    val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                    remoteKeys?.nextKey?.minus(state.config.pageSize) ?: STARTING_OFFSET_INDEX
+                    STARTING_OFFSET_INDEX
                 }
 
                 LoadType.PREPEND -> {
                     val remoteKeys = getRemoteKeyForFirstItem(state)
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                        ?: return@withContext MediatorResult.Success(endOfPaginationReached = true)
                     remoteKeys.prevKey
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                        ?: return@withContext MediatorResult.Success(endOfPaginationReached = true)
                 }
 
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
-                        ?: return MediatorResult.Success(endOfPaginationReached = false)
+                        ?: return@withContext MediatorResult.Success(endOfPaginationReached = false)
                     remoteKeys.nextKey
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                        ?: return@withContext MediatorResult.Success(endOfPaginationReached = true)
                 }
             }
 
@@ -94,6 +96,7 @@ class DefaultArticleRepository(
         } catch (exception: Exception) {
             MediatorResult.Error(exception)
         }
+    }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, ArticleEntity>): RemoteKey? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
@@ -103,14 +106,6 @@ class DefaultArticleRepository(
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, ArticleEntity>): RemoteKey? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { article -> remoteKeyDao.getRemoteKeyById(article.id) }
-    }
-
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, ArticleEntity>): RemoteKey? {
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { articleId ->
-                remoteKeyDao.getRemoteKeyById(articleId)
-            }
-        }
     }
 
     override suspend fun getArticleDetail(id: Int): ArticleDetail? {
