@@ -1,7 +1,7 @@
 package cz.weinzettl.spacenews.feature.homepage.domain.impl
 
-import cz.weinzettl.spacenews.feature.homepage.data.HomePageRepository
 import cz.weinzettl.spacenews.feature.homepage.domain.GetIsEnhancedDesignOnUseCase
+import cz.weinzettl.spacenews.feature.homepage.domain.HomePageRepository
 import cz.weinzettl.spacenews.sdk.logger.logger
 import kotlinx.coroutines.flow.Flow
 

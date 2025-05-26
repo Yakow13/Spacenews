@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
-import cz.weinzettl.spacenews.sdk.storage.service.KeyValueStorageService
+import cz.weinzettl.spacenews.sdk.storage.data.KeyValueStorageService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

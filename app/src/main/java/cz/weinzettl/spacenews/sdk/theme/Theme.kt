@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.sdk.theme.ui
+package cz.weinzettl.spacenews.sdk.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

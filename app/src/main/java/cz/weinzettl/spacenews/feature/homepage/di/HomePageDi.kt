@@ -1,8 +1,8 @@
 package cz.weinzettl.spacenews.feature.homepage.di
 
-import cz.weinzettl.spacenews.feature.homepage.data.HomePageRepository
 import cz.weinzettl.spacenews.feature.homepage.data.impl.DefaultHomePageRepository
 import cz.weinzettl.spacenews.feature.homepage.domain.GetIsEnhancedDesignOnUseCase
+import cz.weinzettl.spacenews.feature.homepage.domain.HomePageRepository
 import cz.weinzettl.spacenews.feature.homepage.domain.SetIsEnhancedDesignOnUseCase
 import cz.weinzettl.spacenews.feature.homepage.domain.impl.DefaultGetIsEnhancedDesignOnUseCase
 import cz.weinzettl.spacenews.feature.homepage.domain.impl.DefaultSetIsEnhancedDesignOnUseCase

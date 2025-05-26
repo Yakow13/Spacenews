@@ -1,9 +1,9 @@
 package cz.weinzettl.spacenews.feature.article.domain.impl
 
 import androidx.paging.PagingData
-import cz.weinzettl.spacenews.feature.article.data.ArticleRepository
+import cz.weinzettl.spacenews.feature.article.domain.ArticleRepository
 import cz.weinzettl.spacenews.feature.article.domain.GetArticlesUseCase
-import cz.weinzettl.spacenews.feature.article.model.Article
+import cz.weinzettl.spacenews.feature.article.domain.model.Article
 import cz.weinzettl.spacenews.sdk.logger.logger
 import kotlinx.coroutines.flow.Flow
 

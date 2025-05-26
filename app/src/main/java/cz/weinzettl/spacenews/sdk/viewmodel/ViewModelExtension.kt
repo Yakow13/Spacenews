@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.sdk.viewmodel.extension
+package cz.weinzettl.spacenews.sdk.viewmodel
 
 import kotlinx.coroutines.flow.SharingStarted
 

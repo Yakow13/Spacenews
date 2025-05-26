@@ -1,6 +1,6 @@
 package cz.weinzettl.spacenews.sdk.network.di
 
-import cz.weinzettl.spacenews.sdk.network.service.RetrofitService
+import cz.weinzettl.spacenews.sdk.network.data.RetrofitService
 import cz.weinzettl.spacenews.sdk.network.service.impl.DefaultRetrofitService
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind

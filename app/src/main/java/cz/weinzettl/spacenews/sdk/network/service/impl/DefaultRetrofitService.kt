@@ -1,7 +1,7 @@
 package cz.weinzettl.spacenews.sdk.network.service.impl
 
 import cz.weinzettl.spacenews.BuildConfig
-import cz.weinzettl.spacenews.sdk.network.service.RetrofitService
+import cz.weinzettl.spacenews.sdk.network.data.RetrofitService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient

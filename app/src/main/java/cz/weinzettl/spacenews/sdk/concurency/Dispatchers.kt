@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.sdk.concurency.service
+package cz.weinzettl.spacenews.sdk.concurency
 
 import kotlinx.coroutines.CoroutineDispatcher
 

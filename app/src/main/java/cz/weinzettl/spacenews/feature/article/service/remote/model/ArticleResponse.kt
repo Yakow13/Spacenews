@@ -21,13 +21,5 @@ data class ArticleResponse(
     val summary: String,
     @SerialName("published_at")
     val publishedAt: String,
-    @SerialName("updated_at")
-    val updatedAt: String,
-    @SerialName("featured")
-    val featured: Boolean,
-    @SerialName("launches")
-    val launches: List<LaunchResponse>,
-    @SerialName("events")
-    val events: List<EventResponse>
 )
 

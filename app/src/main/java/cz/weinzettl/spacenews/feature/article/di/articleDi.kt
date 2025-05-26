@@ -1,7 +1,7 @@
 package cz.weinzettl.spacenews.feature.article.di
 
-import cz.weinzettl.spacenews.feature.article.data.ArticleRepository
 import cz.weinzettl.spacenews.feature.article.data.impl.DefaultArticleRepository
+import cz.weinzettl.spacenews.feature.article.domain.ArticleRepository
 import cz.weinzettl.spacenews.feature.article.domain.GetArticleDetailUseCase
 import cz.weinzettl.spacenews.feature.article.domain.GetArticleDetailV2UseCase
 import cz.weinzettl.spacenews.feature.article.domain.GetArticlesUseCase

@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import cz.weinzettl.spacenews.feature.article.domain.GetArticlesUseCase
-import cz.weinzettl.spacenews.feature.article.model.Article
+import cz.weinzettl.spacenews.feature.article.domain.model.Article
 import cz.weinzettl.spacenews.feature.homepage.domain.GetIsEnhancedDesignOnUseCase
 import cz.weinzettl.spacenews.feature.homepage.domain.SetIsEnhancedDesignOnUseCase
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiEvent
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiState
-import cz.weinzettl.spacenews.sdk.viewmodel.extension.WhileSubscribed5000
+import cz.weinzettl.spacenews.sdk.viewmodel.WhileSubscribed5000
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector

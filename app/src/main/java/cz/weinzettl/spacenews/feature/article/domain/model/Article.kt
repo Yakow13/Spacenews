@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.feature.article.model
+package cz.weinzettl.spacenews.feature.article.domain.model
 
 data class Article(
     val id: Int,

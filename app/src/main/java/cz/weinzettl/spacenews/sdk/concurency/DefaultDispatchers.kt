@@ -1,6 +1,5 @@
-package cz.weinzettl.spacenews.sdk.concurency.service.impl
+package cz.weinzettl.spacenews.sdk.concurency
 
-import cz.weinzettl.spacenews.sdk.concurency.service.Dispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 
 class DefaultDispatchers : Dispatchers {

@@ -1,7 +1,7 @@
 package cz.weinzettl.spacenews.feature.homepage.data.impl
 
-import cz.weinzettl.spacenews.feature.homepage.data.HomePageRepository
-import cz.weinzettl.spacenews.sdk.storage.service.KeyValueStorageService
+import cz.weinzettl.spacenews.feature.homepage.domain.HomePageRepository
+import cz.weinzettl.spacenews.sdk.storage.data.KeyValueStorageService
 import kotlinx.coroutines.flow.Flow
 
 class DefaultHomePageRepository(

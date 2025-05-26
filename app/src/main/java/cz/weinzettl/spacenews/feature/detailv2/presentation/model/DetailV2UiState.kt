@@ -1,6 +1,6 @@
 package cz.weinzettl.spacenews.feature.detailv2.presentation.model
 
-import cz.weinzettl.spacenews.feature.article.model.ArticleDetailV2
+import cz.weinzettl.spacenews.feature.article.domain.model.ArticleDetailV2
 
 sealed interface DetailV2UiState {
     val articleDetail: ArticleDetailV2?

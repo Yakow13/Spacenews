@@ -7,7 +7,7 @@ import androidx.navigation.toRoute
 import cz.weinzettl.spacenews.feature.article.domain.GetArticleDetailV2UseCase
 import cz.weinzettl.spacenews.feature.detailv2.presentation.model.DetailV2UiState
 import cz.weinzettl.spacenews.sdk.navigation.Destination
-import cz.weinzettl.spacenews.sdk.viewmodel.extension.WhileSubscribed5000
+import cz.weinzettl.spacenews.sdk.viewmodel.WhileSubscribed5000
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

@@ -45,11 +45,11 @@ import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import cz.weinzettl.spacenews.R
-import cz.weinzettl.spacenews.feature.article.model.ArticleDetailV2
-import cz.weinzettl.spacenews.feature.article.model.Author
+import cz.weinzettl.spacenews.feature.article.domain.model.ArticleDetailV2
+import cz.weinzettl.spacenews.feature.article.domain.model.Author
 import cz.weinzettl.spacenews.feature.detailv2.presentation.DetailV2ViewModel
 import cz.weinzettl.spacenews.feature.detailv2.presentation.model.DetailV2UiState
-import cz.weinzettl.spacenews.sdk.theme.ui.SpaceNewsTheme
+import cz.weinzettl.spacenews.sdk.theme.SpaceNewsTheme
 import org.koin.androidx.compose.koinViewModel
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter

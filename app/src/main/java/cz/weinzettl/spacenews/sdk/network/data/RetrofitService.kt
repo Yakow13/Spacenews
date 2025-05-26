@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.sdk.network.service
+package cz.weinzettl.spacenews.sdk.network.data
 
 import retrofit2.Retrofit
 

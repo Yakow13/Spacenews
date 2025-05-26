@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.sdk.theme.ui
+package cz.weinzettl.spacenews.sdk.theme
 
 import androidx.compose.ui.graphics.Color
 

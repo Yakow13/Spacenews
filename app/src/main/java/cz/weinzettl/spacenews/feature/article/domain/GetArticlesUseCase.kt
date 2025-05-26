@@ -1,7 +1,7 @@
 package cz.weinzettl.spacenews.feature.article.domain
 
 import androidx.paging.PagingData
-import cz.weinzettl.spacenews.feature.article.model.Article
+import cz.weinzettl.spacenews.feature.article.domain.model.Article
 import kotlinx.coroutines.flow.Flow
 
 interface GetArticlesUseCase {

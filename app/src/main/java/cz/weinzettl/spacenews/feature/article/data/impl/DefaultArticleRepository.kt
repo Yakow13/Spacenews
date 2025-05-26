@@ -8,11 +8,10 @@ import androidx.paging.PagingData
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.paging.map
-import androidx.room.withTransaction
-import cz.weinzettl.spacenews.feature.article.data.ArticleRepository
-import cz.weinzettl.spacenews.feature.article.model.Article
-import cz.weinzettl.spacenews.feature.article.model.ArticleDetail
-import cz.weinzettl.spacenews.feature.article.model.ArticleDetailV2
+import cz.weinzettl.spacenews.feature.article.domain.ArticleRepository
+import cz.weinzettl.spacenews.feature.article.domain.model.Article
+import cz.weinzettl.spacenews.feature.article.domain.model.ArticleDetail
+import cz.weinzettl.spacenews.feature.article.domain.model.ArticleDetailV2
 import cz.weinzettl.spacenews.feature.article.service.local.dao.ArticleDao
 import cz.weinzettl.spacenews.feature.article.service.local.dao.RemoteKeyDao
 import cz.weinzettl.spacenews.feature.article.service.local.model.ArticleEntity
@@ -22,14 +21,12 @@ import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleDetailMapper
 import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleMapper
 import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleMapper.toDomain
 import cz.weinzettl.spacenews.feature.article.service.remote.api.ArticleApiService
-import cz.weinzettl.spacenews.sdk.database.service.SpaceNewsDatabase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalPagingApi::class)
 class DefaultArticleRepository(
     private val apiService: ArticleApiService,
-    private val database: SpaceNewsDatabase,
     private val articleDao: ArticleDao,
     private val remoteKeyDao: RemoteKeyDao
 ) : ArticleRepository, RemoteMediator<Int, ArticleEntity>() {
@@ -43,7 +40,7 @@ class DefaultArticleRepository(
                 prefetchDistance = PREFETCH_DISTANCE // How many items to fetch before the current view
             ),
             remoteMediator = this,
-            pagingSourceFactory = { database.articleDao().getPagingSource() }
+            pagingSourceFactory = { articleDao.getPagingSource() }
 
         ).flow.map { pagingEntity ->
             pagingEntity.map { it.toDomain() }
@@ -86,24 +83,22 @@ class DefaultArticleRepository(
             val endOfPaginationReached =
                 articles.isEmpty() || (apiResponse.next == null && apiResponse.previous != null) // Check if 'next' is null for end
 
-            database.withTransaction {
-                if (loadType == LoadType.REFRESH) {
-                    remoteKeyDao.clearAll()
-                    articleDao.clearAll()
-                }
-                val prevOffset =
-                    if (loadKey == STARTING_OFFSET_INDEX) null else loadKey - state.config.pageSize
-                val nextOffset =
-                    if (endOfPaginationReached) null else loadKey + state.config.pageSize
-
-                // Insert new RemoteKeys for each article
-                val keys = articles.map { article ->
-                    RemoteKey(articleId = article.id, prevKey = prevOffset, nextKey = nextOffset)
-                }
-                remoteKeyDao.insertOrReplaceAll(keys)
-                articleDao.insertAll(articles.map(ArticleMapper::toEntity)) // Insert articles into Room
-                return@withTransaction MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+            if (loadType == LoadType.REFRESH) {
+                remoteKeyDao.clearAll()
+                articleDao.clearAll()
             }
+            val prevOffset =
+                if (loadKey == STARTING_OFFSET_INDEX) null else loadKey - state.config.pageSize
+            val nextOffset =
+                if (endOfPaginationReached) null else loadKey + state.config.pageSize
+
+            // Insert new RemoteKeys for each article
+            val keys = articles.map { article ->
+                RemoteKey(articleId = article.id, prevKey = prevOffset, nextKey = nextOffset)
+            }
+            remoteKeyDao.insertOrReplaceAll(keys)
+            articleDao.insertAll(articles.map(ArticleMapper::toEntity)) // Insert articles into Room
+            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
             MediatorResult.Error(exception)
         }

@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.feature.homepage.data
+package cz.weinzettl.spacenews.feature.homepage.domain
 
 import kotlinx.coroutines.flow.Flow
 

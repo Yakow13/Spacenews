@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.sdk.storage.service
+package cz.weinzettl.spacenews.sdk.storage.data
 
 import kotlinx.coroutines.flow.Flow
 
