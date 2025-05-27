@@ -3,6 +3,7 @@
 package cz.weinzettl.spacenews.feature.homepage.ui
 
 import android.content.Context
+import android.database.sqlite.SQLiteException
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
@@ -175,26 +177,7 @@ fun ArticleListContent(
             }
         }
     }
-
-    LaunchedEffect(refreshState) {
-        if (refreshState is LoadState.Error) {
-            val messageRes = ErrorMessageFactory.getRes(refreshState.error)
-            val result = snackbarHostState.showSnackbar(
-                message = context.getString(messageRes),
-                withDismissAction = true,
-                actionLabel = context.getString(R.string.retry),
-
-                )
-            when (result) {
-                SnackbarResult.ActionPerformed -> {
-                    articles.retry()
-                }
-
-                SnackbarResult.Dismissed -> {/* do nothing */
-                }
-            }
-        }
-    }
+    ShowErrorSnackbar(context, articles, refreshState, snackbarHostState)
 }
 
 @Composable
@@ -243,6 +226,41 @@ fun ArticleItem(article: Article, context: Context, onClick: () -> Unit) {
                     style = SpaceNewsTheme.typography.bodyMedium,
                     maxLines = 3
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun ShowErrorSnackbar(
+    context: Context,
+    articles: LazyPagingItems<Article>,
+    refreshState: LoadState,
+    snackbarHostState: SnackbarHostState,
+) {
+    val isError = refreshState is LoadState.Error || articles.itemCount == 0
+    LaunchedEffect(isError) {
+        if (isError) {
+            val error =
+                if (refreshState is LoadState.Error) refreshState.error else SQLiteException()
+            val messageRes = ErrorMessageFactory.getRes(error)
+            val result = snackbarHostState.showSnackbar(
+                message = context.getString(messageRes),
+                withDismissAction = true,
+                actionLabel = context.getString(R.string.retry),
+
+                )
+            when (result) {
+                SnackbarResult.ActionPerformed -> {
+                    if (error is SQLiteException) {
+                        articles.refresh()
+                    } else {
+                        articles.retry()
+                    }
+                }
+
+                SnackbarResult.Dismissed -> {/* do nothing */
+                }
             }
         }
     }

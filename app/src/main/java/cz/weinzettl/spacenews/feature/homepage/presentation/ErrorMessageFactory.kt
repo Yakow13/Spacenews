@@ -3,6 +3,7 @@ package cz.weinzettl.spacenews.feature.homepage.presentation
 import android.database.sqlite.SQLiteException
 import androidx.annotation.StringRes
 import cz.weinzettl.spacenews.R
+import cz.weinzettl.spacenews.sdk.logger.logger
 import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -18,5 +19,7 @@ object ErrorMessageFactory {
             is IOException -> R.string.error_io_exception
             is SQLiteException -> R.string.error_sqlite_exception
             else -> R.string.error_unexpected
+        }.also {
+            logger.error(throwable, "error during request")
         }
 }
