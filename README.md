@@ -56,28 +56,32 @@ The architecture is generally structured around the following layers:
 
 * **Domain Layer:** This is the heart of the application, containing the core business logic and
   business entities.
-* **Entities:** Plain Kotlin data classes representing the fundamental concepts of your
+    * **Entities:** Plain Kotlin data classes representing the fundamental concepts of your
   application (e.g., `Article`).
-* **Use Cases (Interactors):** These classes encapsulate specific application business rules. They
-  orchestrate the flow of data, including paginated data structures like `Flow<PagingData<Type>>`,
-  by interacting with repository interfaces.
-* **Repository Interfaces:** Abstract definitions for data operations, dictating how data (including
-  paginated data) should be fetched or stored.
+    * **Use Cases (Interactors):** These classes encapsulate specific application business rules.
+      They
+      orchestrate the flow of data, including paginated data structures like
+      `Flow<PagingData<Type>>`,
+      by interacting with repository interfaces.
+    * **Repository Interfaces:** Abstract definitions for data operations, dictating how data (
+      including
+      paginated data) should be fetched or stored.
 
 * **Data Layer:** Responsible for providing the concrete implementation for the repository
   interfaces defined in the Domain layer. It handles data retrieval from various sources.
-* **Repositories:** Implementations of the repository interfaces from the Domain layer. They
-  configure and return data streams, such as `Flow<PagingData<Type>>` using Jetpack Paging
-  components like `Pager` and `PagingSource`.
-* **Data Sources:** Concrete classes that fetch data for pagination
-* **`ArticleRemoteMediator`**:
-* A Paging 3 component that orchestrates loading data from the network when local data is exhausted
-  or a refresh is needed.
-* Fetches data via `ArticleApiService`, stores it in Room, and updates pagination keys.
-* **Models & Mappers**:
-    * **API Models**: Represent network response structures.
-    * **Database Entities**: Represent Room database tables.
-    * **Mappers**: Convert data between API models and database entities.
+    * **Repositories:** Implementations of the repository interfaces from the Domain layer. They
+      configure and return data streams, such as `Flow<PagingData<Type>>` using Jetpack Paging
+      components like `Pager` and `PagingSource`.
+    * **Data Sources:** Concrete classes that fetch data for pagination
+    * **`ArticleRemoteMediator`**:
+        * A Paging 3 component that orchestrates loading data from the network when local data is
+          exhausted
+          or a refresh is needed.
+    * Fetches data via `ArticleApiService`, stores it in Room, and updates pagination keys.
+    * **Models & Mappers**:
+        * **API Models**: Represent network response structures.
+        * **Database Entities**: Represent Room database tables.
+        * **Mappers**: Convert data between API models and database entities.
 
 * **Presentation Layer (MVVM - ViewModels):** This layer acts as an intermediary between the UI
   Layer and the Domain Layer. It contains the presentation logic.
