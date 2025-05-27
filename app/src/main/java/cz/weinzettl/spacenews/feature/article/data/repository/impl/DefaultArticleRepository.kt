@@ -59,10 +59,6 @@ class DefaultArticleRepository(
             val currentPageSize = state.config.pageSize
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> {
-                    //FIXME remove
-//                    val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-//                    val newKey = remoteKeys?.nextKey?.minus(currentPageSize)
-//                    if (newKey == null || newKey < 0) STARTING_OFFSET_INDEX else newKey
                     STARTING_OFFSET_INDEX
                 }
 

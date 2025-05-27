@@ -182,7 +182,7 @@ fun ArticleListContent(
             val result = snackbarHostState.showSnackbar(
                 message = context.getString(messageRes),
                 withDismissAction = true,
-                actionLabel = "Retry",
+                actionLabel = context.getString(R.string.retry),
 
                 )
             when (result) {
@@ -219,7 +219,7 @@ fun ArticleItem(article: Article, context: Context, onClick: () -> Unit) {
             )
             Image(
                 painter = imagePainter,
-                contentDescription = "Article Image",
+                contentDescription = stringResource(R.string.content_desc_article_image),
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.medium)
                     .size(120.dp),
@@ -268,7 +268,7 @@ fun HomeTopAppBar(
             IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
                     imageVector = Icons.Filled.MoreVert,
-                    contentDescription = stringResource(R.string.settings_content_description)
+                    contentDescription = stringResource(R.string.content_desc_settings)
                 )
             }
             DropdownMenu(
@@ -281,7 +281,7 @@ fun HomeTopAppBar(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("Show Enhanced Design")
+                            Text(stringResource(R.string.show_enhanced_design))
                             Spacer(Modifier.weight(1f))
                             Checkbox(
                                 checked = isEnhanced,

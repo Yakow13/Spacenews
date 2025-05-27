@@ -147,8 +147,7 @@ private fun DetailV2Content(article: ArticleDetailV2) {
     article.imageUrl?.let { imageUrl ->
         Image(
             painter = rememberAsyncImagePainter(imageUrl),
-            //FIXME all content desc
-            contentDescription = null,
+            contentDescription = stringResource(R.string.content_desc_article_icon),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(220.dp)
@@ -171,7 +170,7 @@ private fun DetailV2Content(article: ArticleDetailV2) {
         ) {
             Icon(
                 imageVector = Icons.Default.Person,
-                contentDescription = "Author icon",
+                contentDescription = stringResource(R.string.content_desc_author_icon),
                 modifier = Modifier.size(20.dp),
             )
             Spacer(Modifier.width(8.dp))
@@ -210,7 +209,7 @@ private fun DetailV2Content(article: ArticleDetailV2) {
     ) {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-            contentDescription = "Open article in browser tab",
+            contentDescription = stringResource(R.string.open_article_in_browser_tab),
             modifier = Modifier.size(20.dp)
         )
         Spacer(Modifier.width(8.dp))
@@ -238,7 +237,10 @@ private fun DetailV2TopAppBar(onNavigateUp: () -> Unit, onShareClick: () -> Unit
         },
         actions = {
             IconButton(onClick = onShareClick) {
-                Icon(Icons.Default.Share, contentDescription = "Share article")
+                Icon(
+                    Icons.Default.Share,
+                    contentDescription = stringResource(R.string.content_desc_share_article)
+                )
             }
         }
     )

@@ -1,14 +1,25 @@
 <resources>
     <string name="app_name">Space news</string>
+
+    <string name="back">Back</string>
+    <string name="refresh">Refresh</string>
+    <string name="retry">Retry</string>
+
+    <string name="share_article_via">Share article via</string>
+    <string name="open_article_in_browser_tab">Open article in browser tab</string>
+    <string name="show_enhanced_design">Show Enhanced Design</string>
+    <string name="empty_placeholder">Nothing to show :(</string>
+
     <string name="error_no_internet">No internet connection. Please check your network settings.</string>
     <string name="error_connect_exception">Could not connect to the server. Please try again later.</string>
     <string name="error_socket_timeout">The connection timed out. Please try again.</string>
     <string name="error_io_exception">A network error occurred. Please try again.</string>
     <string name="error_sqlite_exception">A database error occurred. Please try restarting the app.</string>
     <string name="error_unexpected">An unexpected error occurred. Please try again.</string>
-    <string name="back">Back</string>
-    <string name="refresh">Refresh</string>
-    <string name="settings_content_description">settings</string>
-    <string name="share_article_via">Share article via</string>
-    <string name="empty_placeholder">Nothing to show :(</string>
+
+    <string name="content_desc_article_icon">article icon</string>
+    <string name="content_desc_author_icon">Author icon</string>
+    <string name="content_desc_share_article">Share article</string>
+    <string name="content_desc_article_image">Article Image</string>
+    <string name="content_desc_settings">settings</string>
 </resources>
