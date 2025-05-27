@@ -137,13 +137,11 @@ fun ArticleListContent(
     onArticleClick: (Int) -> Unit
 ) {
     val articles = state.articles.collectAsLazyPagingItems()
-    var isRefreshing by remember { mutableStateOf(false) }
     val isPagingRefreshing = articles.loadState.refresh is LoadState.Loading
     PullToRefreshBox(
         isRefreshing = isPagingRefreshing,
         onRefresh = {
             if (!isPagingRefreshing) {
-                //isRefreshing = true
                 articles.refresh()
             }
         },

@@ -21,11 +21,14 @@ import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleDetailMapper
 import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleMapper
 import cz.weinzettl.spacenews.feature.article.service.remote.api.ArticleApiService
 import cz.weinzettl.spacenews.sdk.concurency.Dispatchers
+import cz.weinzettl.spacenews.sdk.logger.logger
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 
-@OptIn(ExperimentalPagingApi::class)
+@OptIn(ExperimentalPagingApi::class, ExperimentalCoroutinesApi::class)
 class DefaultArticleRepository(
     private val apiService: ArticleApiService,
     private val articleDao: ArticleDao,
@@ -43,9 +46,9 @@ class DefaultArticleRepository(
             remoteMediator = this,
             pagingSourceFactory = { articleDao.getPagingSource() }
 
-        ).flow.map { pagingEntity ->
+        ).flow.mapLatest { pagingEntity ->
             pagingEntity.map(ArticleMapper::toDomain)
-        }
+        }.flowOn(dispatchers.io)
     }
 
     override suspend fun load(
@@ -53,10 +56,14 @@ class DefaultArticleRepository(
         state: PagingState<Int, ArticleEntity>
     ): MediatorResult = withContext(dispatchers.io) {
         try {
+            val currentPageSize = state.config.pageSize
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> {
-                    val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                    remoteKeys?.nextKey?.minus(state.config.pageSize) ?: STARTING_OFFSET_INDEX
+                    //FIXME remove
+//                    val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
+//                    val newKey = remoteKeys?.nextKey?.minus(currentPageSize)
+//                    if (newKey == null || newKey < 0) STARTING_OFFSET_INDEX else newKey
+                    STARTING_OFFSET_INDEX
                 }
 
                 LoadType.PREPEND -> {
@@ -74,7 +81,7 @@ class DefaultArticleRepository(
                 }
             }
 
-            val apiResponse = apiService.getArticles(loadKey, state.config.pageSize)
+            val apiResponse = apiService.getArticles(currentPageSize, loadKey)
             val articles = apiResponse.results
             val endOfPaginationReached =
                 articles.isEmpty() || (apiResponse.next == null && apiResponse.previous != null)
@@ -84,9 +91,9 @@ class DefaultArticleRepository(
                 articleDao.clearAll()
             }
             val prevOffset =
-                if (loadKey == STARTING_OFFSET_INDEX) null else loadKey - state.config.pageSize
+                if (loadKey == STARTING_OFFSET_INDEX) null else loadKey - currentPageSize
             val nextOffset =
-                if (endOfPaginationReached) null else loadKey + state.config.pageSize
+                if (endOfPaginationReached) null else loadKey + currentPageSize
 
             val keys = articles.map { article ->
                 RemoteKey(articleId = article.id, prevKey = prevOffset, nextKey = nextOffset)
@@ -95,6 +102,7 @@ class DefaultArticleRepository(
             articleDao.insertAll(articles.map(ArticleMapper::toEntity))
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
+            logger.error(exception, "Error while loading articles")
             MediatorResult.Error(exception)
         }
     }
@@ -128,6 +136,6 @@ class DefaultArticleRepository(
     companion object {
         private const val STARTING_OFFSET_INDEX = 0
         private const val PAGE_SIZE = 20
-        private const val PREFETCH_DISTANCE = 5
+        private const val PREFETCH_DISTANCE = 3
     }
 }
