@@ -1,6 +1,7 @@
 # Spacenews - Android App
 
 [App Logo](app/src/main/res/mipmap-anydpi/ic_launcher.xml)
+<img src="app/src/main/res/mipmap-anydpi/ic_launcher.xml" alt="Screenshot of the app" width="500">
 
 **Spacenews** is an Android application designed to deliver the latest news and articles related to
 space exploration, astronomy, and aerospace advancements. Built with modern Android development
