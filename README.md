@@ -113,7 +113,7 @@ The project is organized by feature, with core components shared across features
 and Clean Architecture principles.
 
 * **`:app` Application Module**:
-    * The main entry point (`MainActivity`, `SpacenewsApp`).
+    * The main entry point (`SpaceNewsActivity`, `SpacenewsApp`).
     * Integrates all feature modules.
     * Handles global dependency injection setup and top-level navigation.
     * Depends on feature and core modules.
