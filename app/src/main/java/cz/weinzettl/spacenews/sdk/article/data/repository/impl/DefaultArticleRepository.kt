@@ -24,7 +24,6 @@ import cz.weinzettl.spacenews.sdk.concurency.Dispatchers
 import cz.weinzettl.spacenews.sdk.logger.logger
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 
@@ -47,9 +46,14 @@ class DefaultArticleRepository(
             pagingSourceFactory = { articleDao.getPagingSource() }
 
         ).flow.mapLatest { pagingEntity ->
-            pagingEntity.map(ArticleMapper::toDomain)
-        }.flowOn(dispatchers.io)
+            pagingEntity.map {
+                withContext(dispatchers.io) {
+                    ArticleMapper.toDomain(it)
+                }
+            }
+        }
     }
+
 
     override suspend fun load(
         loadType: LoadType,

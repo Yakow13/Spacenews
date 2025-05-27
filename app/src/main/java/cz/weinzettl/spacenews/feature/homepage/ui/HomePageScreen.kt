@@ -238,7 +238,7 @@ fun ShowErrorSnackbar(
     refreshState: LoadState,
     snackbarHostState: SnackbarHostState,
 ) {
-    val isError = refreshState is LoadState.Error || articles.itemCount == 0
+    val isError = determineIsError(refreshState, articles)
     LaunchedEffect(isError) {
         if (isError) {
             val error =
@@ -264,6 +264,15 @@ fun ShowErrorSnackbar(
             }
         }
     }
+}
+
+private fun determineIsError(
+    refreshState: LoadState,
+    articles: LazyPagingItems<Article>
+): Boolean {
+    val isLoadError = refreshState is LoadState.Error
+    val isEmptyAndNotLoading = refreshState is LoadState.NotLoading && articles.itemCount == 0
+    return isLoadError || isEmptyAndNotLoading
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
