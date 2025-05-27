@@ -136,7 +136,6 @@ and Clean Architecture principles.
     * Reduce duplication and enforce consistency. Feature modules and `:app` depend on these.
 
 ## Getting Started
-
 ### Prerequisites
 
 * Android Studio (latest stable version recommended)
