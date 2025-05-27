@@ -2,7 +2,6 @@
     <string name="app_name">Space news</string>
 
     <string name="back">Back</string>
-    <string name="refresh">Refresh</string>
     <string name="retry">Retry</string>
 
     <string name="share_article_via">Share article via</string>

@@ -113,14 +113,6 @@ class DefaultArticleRepository(
             ?.let { article -> remoteKeyDao.getRemoteKeyById(article.id) }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, ArticleEntity>): RemoteKey? {
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { articleId ->
-                remoteKeyDao.getRemoteKeyById(articleId)
-            }
-        }
-    }
-
     override suspend fun getArticleDetail(id: Int): ArticleDetail? {
         return articleDao.getArticleById(id)?.toDetailDomain()
     }
