@@ -112,13 +112,13 @@ The architecture is generally structured around the following layers:
 The project is organized by feature, with core components shared across features, aligning with MVVM
 and Clean Architecture principles.
 
-* **`:app` (Application Module)**:
+* **`:app` Application Module**:
     * The main entry point (`MainActivity`, `SpacenewsApp`).
     * Integrates all feature modules.
     * Handles global dependency injection setup and top-level navigation.
     * Depends on feature and core modules.
 
-* **Feature Modules (e.g., `:feature_article`)**:
+* **`:feature`Feature Modules**:
     * Encapsulate specific app functionalities (e.g., article browsing, settings).
     * Typically structured internally into:
         * `:presentation`: ViewModels, Composable Screens, feature-specific navigation.
@@ -127,7 +127,7 @@ and Clean Architecture principles.
           DAOs, Entities) Data Sources, Mappers.
     * Depend on core modules; aim for independence from other feature modules.
 
-* **Shared/Core "SDK-like" Modules**:
+* **`:sdk` "SDK-like" Modules**:
     * Contain reusable code across features.
     * Examples:
         * `:theme`: Common Composables, App Theme.
