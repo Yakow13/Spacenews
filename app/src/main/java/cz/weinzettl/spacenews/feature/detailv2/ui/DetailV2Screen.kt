@@ -58,6 +58,24 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
+
+/**
+ * Composable function for displaying the detail screen of a space news article.
+ * This screen provides an enhanced user experience for viewing article details,
+ * building upon the original detail screen functionality.
+ * The big-picture idea and then the design has been done using Gemini 2.5 Flash
+ *
+ * The prompt:
+ * This is the sample of detail data. I displayed that in Webview but I don't like the UX. How to improve?
+ * { "id": 31315, "title": "China to launch Tianwen-2 asteroid sampling mission on May 28", "authors": [ { "name": "Andrew Jones", "socials": null }
+ * ], "url": "https://spacenews.com/china-to-launch-tianwen-2-asteroid-sampling-mission-on-may-28/", "image_url": "https://i0.wp.com/spacenews.com/wp-content/uploads/2020/08/ZhengHe-probe-2019-CNSA.jpg?fit=1024%2C686&quality=89&ssl=1",
+ * "news_site": "SpaceNews", "summary": "HELSINKI — China is set to launch its second Tianwen deep space exploration mission late May, targeting both a near Earth asteroid and a main belt comet. The Tianwen-2 spacecraft […]\r\nThe post China to launch Tianwen-2 asteroid sampling mission on May 28 appeared first on SpaceNews.",
+ * "published_at": "2025-05-19T12:00:46Z", "updated_at": "2025-05-20T06:32:25.625683Z", "featured": false, "launches": [ { "launch_id": "66be38aa-d9d9-4b71-8522-45e06677b2e0", "provider": "Launch Library 2" }
+ * ], "events": []}
+ *
+ * It utilizes [DetailV2ViewModel] to manage its state and interactions.
+ *
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailV2Screen(

@@ -2,6 +2,7 @@
 
 package cz.weinzettl.spacenews.feature.homepage.ui
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -28,7 +29,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -57,6 +60,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import cz.weinzettl.spacenews.R
 import cz.weinzettl.spacenews.feature.article.domain.model.Article
+import cz.weinzettl.spacenews.feature.homepage.presentation.ErrorMessageFactory
 import cz.weinzettl.spacenews.feature.homepage.presentation.HomePageViewModel
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiEvent
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiState
@@ -77,6 +81,8 @@ fun HomePageScreen(
     HomePageContent(
         uiState = uiState,
         isEnhanced = isEnhancedOn,
+        snackbarHostState = snackbarHostState,
+
         onArticleClick = {
             onArticleClick(it, isEnhancedOn)
         },
@@ -99,6 +105,7 @@ fun HomePageScreen(
 @Composable
 fun HomePageContent(
     uiState: HomePageUiState,
+    snackbarHostState: SnackbarHostState,
     isEnhanced: Boolean,
     onArticleClick: (Int) -> Unit,
     onEnhancedChange: (Boolean) -> Unit,
@@ -106,6 +113,7 @@ fun HomePageContent(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { HomeTopAppBar(isEnhanced, onEnhancedChange) },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         when (val state = uiState) {
             HomePageUiState.Loading -> {
@@ -120,7 +128,7 @@ fun HomePageContent(
             }
 
             is HomePageUiState.Idle -> {
-                ArticleListContent(state, paddingValues, onArticleClick)
+                ArticleListContent(state, paddingValues, snackbarHostState, onArticleClick)
             }
 
             HomePageUiState.Empty -> {
@@ -134,10 +142,13 @@ fun HomePageContent(
 fun ArticleListContent(
     state: HomePageUiState.Idle,
     paddingValues: PaddingValues,
+    snackbarHostState: SnackbarHostState,
     onArticleClick: (Int) -> Unit
 ) {
+    val context = LocalContext.current
     val articles = state.articles.collectAsLazyPagingItems()
-    val isPagingRefreshing = articles.loadState.refresh is LoadState.Loading
+    val refreshState = articles.loadState.refresh
+    val isPagingRefreshing = refreshState is LoadState.Loading
     PullToRefreshBox(
         isRefreshing = isPagingRefreshing,
         onRefresh = {
@@ -157,9 +168,29 @@ fun ArticleListContent(
             ) { index ->
                 val article = articles[index]
                 if (article != null) {
-                    ArticleItem(article = article) {
+                    ArticleItem(article = article, context = context) {
                         onArticleClick(article.id)
                     }
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(refreshState) {
+        if (refreshState is LoadState.Error) {
+            val messageRes = ErrorMessageFactory.getRes(refreshState.error)
+            val result = snackbarHostState.showSnackbar(
+                message = context.getString(messageRes),
+                withDismissAction = true,
+                actionLabel = "Retry",
+
+                )
+            when (result) {
+                SnackbarResult.ActionPerformed -> {
+                    articles.retry()
+                }
+
+                SnackbarResult.Dismissed -> {/* do nothing */
                 }
             }
         }
@@ -167,7 +198,7 @@ fun ArticleListContent(
 }
 
 @Composable
-fun ArticleItem(article: Article, onClick: () -> Unit) {
+fun ArticleItem(article: Article, context: Context, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -181,7 +212,7 @@ fun ArticleItem(article: Article, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             val imagePainter = rememberAsyncImagePainter(
-                model = ImageRequest.Builder(LocalContext.current)
+                model = ImageRequest.Builder(context)
                     .data(article.imageUrl)
                     .crossfade(true)
                     .build()
@@ -288,6 +319,7 @@ fun Preview() {
         uiState = mockUiState,
         isEnhanced = true,
         onArticleClick = { },
-        onEnhancedChange = { }
+        onEnhancedChange = { },
+        snackbarHostState = remember { SnackbarHostState() }
     )
 }
