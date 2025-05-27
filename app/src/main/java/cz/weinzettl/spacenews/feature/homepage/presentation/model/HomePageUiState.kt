@@ -1,7 +1,7 @@
 package cz.weinzettl.spacenews.feature.homepage.presentation.model
 
 import androidx.paging.PagingData
-import cz.weinzettl.spacenews.feature.article.domain.model.Article
+import cz.weinzettl.spacenews.sdk.article.domain.model.Article
 import kotlinx.coroutines.flow.Flow
 
 sealed interface HomePageUiState {

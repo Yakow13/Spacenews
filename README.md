@@ -57,7 +57,7 @@ The architecture is generally structured around the following layers:
 * **Domain Layer:** This is the heart of the application, containing the core business logic and
   business entities.
     * **Entities:** Plain Kotlin data classes representing the fundamental concepts of your
-  application (e.g., `Article`).
+      application (e.g., `Article`).
     * **Use Cases (Interactors):** These classes encapsulate specific application business rules.
       They
       orchestrate the flow of data, including paginated data structures like
@@ -111,6 +111,29 @@ The architecture is generally structured around the following layers:
 
 The project is organized by feature, with core components shared across features, aligning with MVVM
 and Clean Architecture principles.
+
+* **`:app` (Application Module)**:
+    * The main entry point (`MainActivity`, `SpacenewsApp`).
+    * Integrates all feature modules.
+    * Handles global dependency injection setup and top-level navigation.
+    * Depends on feature and core modules.
+
+* **Feature Modules (e.g., `:feature_article`)**:
+    * Encapsulate specific app functionalities (e.g., article browsing, settings).
+    * Typically structured internally into:
+        * `:presentation`: ViewModels, Composable Screens, feature-specific navigation.
+        * `:domain`: Use Cases, Repository Interfaces, Domain Models (pure Kotlin).
+        * `:data`: Repository Implementations, Remote (Retrofit API services, DTOs) and Local (Room
+          DAOs, Entities) Data Sources, Mappers.
+    * Depend on core modules; aim for independence from other feature modules.
+
+* **Shared/Core "SDK-like" Modules**:
+    * Contain reusable code across features.
+    * Examples:
+        * `:theme`: Common Composables, App Theme.
+        * `:network`: Base network setup (Retrofit), shared database configuration (Room).
+        * `:logger`: Logging setup.
+    * Reduce duplication and enforce consistency. Feature modules and `:app` depend on these.
 
 ## Getting Started
 

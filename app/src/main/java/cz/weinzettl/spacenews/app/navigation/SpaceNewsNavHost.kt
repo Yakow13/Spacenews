@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import cz.weinzettl.spacenews.feature.detail.ui.DetailScreen
 import cz.weinzettl.spacenews.feature.detailv2.ui.DetailV2Screen
 import cz.weinzettl.spacenews.feature.homepage.ui.HomePageScreen
+import cz.weinzettl.spacenews.sdk.navigation.Destination
 
 @Composable
 fun SpaceNewsNavHost() {

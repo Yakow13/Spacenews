@@ -1,8 +1,8 @@
 package cz.weinzettl.spacenews.sdk.database.di
 
 import androidx.room.Room
-import cz.weinzettl.spacenews.feature.article.data.local.dao.ArticleDao
-import cz.weinzettl.spacenews.feature.article.data.local.dao.RemoteKeyDao
+import cz.weinzettl.spacenews.sdk.article.data.local.dao.ArticleDao
+import cz.weinzettl.spacenews.sdk.article.data.local.dao.RemoteKeyDao
 import cz.weinzettl.spacenews.sdk.database.data.SpaceNewsDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module

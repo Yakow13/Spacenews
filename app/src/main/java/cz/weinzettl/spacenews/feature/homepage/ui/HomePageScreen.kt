@@ -61,11 +61,11 @@ import androidx.paging.compose.itemKey
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import cz.weinzettl.spacenews.R
-import cz.weinzettl.spacenews.feature.article.domain.model.Article
 import cz.weinzettl.spacenews.feature.homepage.presentation.ErrorMessageFactory
 import cz.weinzettl.spacenews.feature.homepage.presentation.HomePageViewModel
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiEvent
 import cz.weinzettl.spacenews.feature.homepage.presentation.model.HomePageUiState
+import cz.weinzettl.spacenews.sdk.article.domain.model.Article
 import cz.weinzettl.spacenews.sdk.theme.SpaceNewsTheme
 import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.koinViewModel
