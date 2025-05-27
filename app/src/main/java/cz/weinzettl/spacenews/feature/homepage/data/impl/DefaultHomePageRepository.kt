@@ -1,18 +1,18 @@
 package cz.weinzettl.spacenews.feature.homepage.data.impl
 
 import cz.weinzettl.spacenews.feature.homepage.domain.HomePageRepository
-import cz.weinzettl.spacenews.sdk.storage.data.KeyValueStorageService
+import cz.weinzettl.spacenews.sdk.storage.data.KeyValueStorage
 import kotlinx.coroutines.flow.Flow
 
 class DefaultHomePageRepository(
-    private val keyValueStorageService: KeyValueStorageService
+    private val keyValueStorage: KeyValueStorage
 ) : HomePageRepository {
     override fun isEnhancedDesignEnabled(): Flow<Boolean> {
-        return keyValueStorageService.getBoolean(ENHANCED_DESIGN_KEY, false)
+        return keyValueStorage.getBoolean(ENHANCED_DESIGN_KEY, false)
     }
 
     override suspend fun setEnhancedDesignEnabled(enabled: Boolean) {
-        keyValueStorageService.setBoolean(ENHANCED_DESIGN_KEY, enabled)
+        keyValueStorage.setBoolean(ENHANCED_DESIGN_KEY, enabled)
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.sdk.network.service.impl
+package cz.weinzettl.spacenews.sdk.network.data.impl
 
 import cz.weinzettl.spacenews.BuildConfig
 import cz.weinzettl.spacenews.sdk.network.data.RetrofitService

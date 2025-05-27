@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.feature.article.service.local.model
+package cz.weinzettl.spacenews.feature.article.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

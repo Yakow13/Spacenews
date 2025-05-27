@@ -70,6 +70,14 @@ The architecture is generally structured around the following layers:
   configure and return data streams, such as `Flow<PagingData<Type>>` using Jetpack Paging
   components like `Pager` and `PagingSource`.
 * **Data Sources:** Concrete classes that fetch data for pagination
+* **`ArticleRemoteMediator`**:
+* A Paging 3 component that orchestrates loading data from the network when local data is exhausted
+  or a refresh is needed.
+* Fetches data via `ArticleApiService`, stores it in Room, and updates pagination keys.
+* **Models & Mappers**:
+    * **API Models**: Represent network response structures.
+    * **Database Entities**: Represent Room database tables.
+    * **Mappers**: Convert data between API models and database entities.
 
 * **Presentation Layer (MVVM - ViewModels):** This layer acts as an intermediary between the UI
   Layer and the Domain Layer. It contains the presentation logic.
@@ -94,11 +102,6 @@ The architecture is generally structured around the following layers:
       efficiently when data changes.
     * *This layer is entirely focused on UI concerns and should contain minimal to no business or
       presentation logic.*
-
-* **Service Layer (3rd party libraries interaction):** This is another outermost layer,
-  parallel to the UI Layer.
-    * *Contains minimal to no business or presentation logic itself, delegating to inner layers.*
-    * **Mappers:** Transform data between API/database models and the Domain layer's entities.
 
 ## Project Structure
 

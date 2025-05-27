@@ -1,11 +1,11 @@
-package cz.weinzettl.spacenews.sdk.database.service
+package cz.weinzettl.spacenews.sdk.database.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import cz.weinzettl.spacenews.feature.article.service.local.dao.ArticleDao
-import cz.weinzettl.spacenews.feature.article.service.local.dao.RemoteKeyDao
-import cz.weinzettl.spacenews.feature.article.service.local.model.ArticleEntity
-import cz.weinzettl.spacenews.feature.article.service.local.model.RemoteKey
+import cz.weinzettl.spacenews.feature.article.data.local.dao.ArticleDao
+import cz.weinzettl.spacenews.feature.article.data.local.dao.RemoteKeyDao
+import cz.weinzettl.spacenews.feature.article.data.local.model.ArticleEntity
+import cz.weinzettl.spacenews.feature.article.data.local.model.RemoteKey
 
 @Database(
     entities = [ArticleEntity::class, RemoteKey::class],

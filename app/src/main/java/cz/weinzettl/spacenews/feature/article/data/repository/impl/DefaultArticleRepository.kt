@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.feature.article.data.impl
+package cz.weinzettl.spacenews.feature.article.data.repository.impl
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -8,18 +8,18 @@ import androidx.paging.PagingData
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.paging.map
+import cz.weinzettl.spacenews.feature.article.data.local.dao.ArticleDao
+import cz.weinzettl.spacenews.feature.article.data.local.dao.RemoteKeyDao
+import cz.weinzettl.spacenews.feature.article.data.local.model.ArticleEntity
+import cz.weinzettl.spacenews.feature.article.data.local.model.RemoteKey
+import cz.weinzettl.spacenews.feature.article.data.mapper.ArticleDetailMapper.toDetailDomain
+import cz.weinzettl.spacenews.feature.article.data.mapper.ArticleDetailMapper.toDetailDomainV2
+import cz.weinzettl.spacenews.feature.article.data.mapper.ArticleMapper
+import cz.weinzettl.spacenews.feature.article.data.remote.api.ArticleApiService
 import cz.weinzettl.spacenews.feature.article.domain.ArticleRepository
 import cz.weinzettl.spacenews.feature.article.domain.model.Article
 import cz.weinzettl.spacenews.feature.article.domain.model.ArticleDetail
 import cz.weinzettl.spacenews.feature.article.domain.model.ArticleDetailV2
-import cz.weinzettl.spacenews.feature.article.service.local.dao.ArticleDao
-import cz.weinzettl.spacenews.feature.article.service.local.dao.RemoteKeyDao
-import cz.weinzettl.spacenews.feature.article.service.local.model.ArticleEntity
-import cz.weinzettl.spacenews.feature.article.service.local.model.RemoteKey
-import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleDetailMapper.toDetailDomain
-import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleDetailMapper.toDetailDomainV2
-import cz.weinzettl.spacenews.feature.article.service.mapper.ArticleMapper
-import cz.weinzettl.spacenews.feature.article.service.remote.api.ArticleApiService
 import cz.weinzettl.spacenews.sdk.concurency.Dispatchers
 import cz.weinzettl.spacenews.sdk.logger.logger
 import kotlinx.coroutines.ExperimentalCoroutinesApi

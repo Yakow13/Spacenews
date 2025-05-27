@@ -1,10 +1,10 @@
-package cz.weinzettl.spacenews.feature.article.service.local.dao
+package cz.weinzettl.spacenews.feature.article.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import cz.weinzettl.spacenews.feature.article.service.local.model.RemoteKey
+import cz.weinzettl.spacenews.feature.article.data.local.model.RemoteKey
 
 
 @Dao

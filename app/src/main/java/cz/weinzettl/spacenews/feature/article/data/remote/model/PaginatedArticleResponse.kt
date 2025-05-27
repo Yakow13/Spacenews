@@ -1,4 +1,4 @@
-package cz.weinzettl.spacenews.feature.article.service.remote.model
+package cz.weinzettl.spacenews.feature.article.data.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

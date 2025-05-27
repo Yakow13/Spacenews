@@ -1,9 +1,9 @@
-package cz.weinzettl.spacenews.feature.article.service.mapper
+package cz.weinzettl.spacenews.feature.article.data.mapper
 
+import cz.weinzettl.spacenews.feature.article.data.local.model.ArticleEntity
+import cz.weinzettl.spacenews.feature.article.data.local.model.AuthorEntity
+import cz.weinzettl.spacenews.feature.article.data.remote.model.ArticleResponse
 import cz.weinzettl.spacenews.feature.article.domain.model.Article
-import cz.weinzettl.spacenews.feature.article.service.local.model.ArticleEntity
-import cz.weinzettl.spacenews.feature.article.service.local.model.AuthorEntity
-import cz.weinzettl.spacenews.feature.article.service.remote.model.ArticleResponse
 
 object ArticleMapper {
 

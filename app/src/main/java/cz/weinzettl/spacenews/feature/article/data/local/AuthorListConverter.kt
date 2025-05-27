@@ -1,7 +1,7 @@
-package cz.weinzettl.spacenews.feature.article.service.local
+package cz.weinzettl.spacenews.feature.article.data.local
 
 import androidx.room.TypeConverter
-import cz.weinzettl.spacenews.feature.article.service.local.model.AuthorEntity
+import cz.weinzettl.spacenews.feature.article.data.local.model.AuthorEntity
 
 class AuthorNameListConverter {
 
