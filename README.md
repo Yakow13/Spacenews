@@ -1,4 +1,4 @@
-# Spacenews - Android App
+# Space news - Android App
 
 [App Logo](app/src/main/res/mipmap-anydpi/ic_launcher.xml)
 
