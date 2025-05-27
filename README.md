@@ -119,7 +119,7 @@ and Clean Architecture principles.
     * Depends on feature and core modules.
 
 * **`:feature`Feature Modules**:
-    * Encapsulate specific app functionalities (e.g., article browsing, settings).
+    * Encapsulate specific app functionalities (e.g., article browsing, detail).
     * Typically structured internally into:
         * `:presentation`: ViewModels, Composable Screens, feature-specific navigation.
         * `:domain`: Use Cases, Repository Interfaces, Domain Models (pure Kotlin).
