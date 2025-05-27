@@ -9,11 +9,11 @@ import kotlinx.coroutines.withContext
 
 class DefaultGetArticleDetailV2UseCase(
     private val repository: ArticleRepository,
-    private val dispatcher: Dispatchers
+    private val dispatchers: Dispatchers
 ) : GetArticleDetailV2UseCase {
 
     override suspend fun invoke(articleId: Int): Result<ArticleDetailV2> =
-        withContext(dispatcher.io) {
+        withContext(dispatchers.io) {
             runCatching {
                 val detail = repository.getArticleDetailV2(articleId)
                 requireNotNull(detail)

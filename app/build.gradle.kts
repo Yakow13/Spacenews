@@ -91,7 +91,12 @@ dependencies {
     // Logger
     implementation(libs.timber)
 
+    // Test
+    testImplementation(libs.mockk)
     testImplementation(libs.junit)
+    testImplementation(libs.coroutine.test)
+    //testImplementation(libs.kotest.assertions.core)
+    testImplementation(libs.kotest.assertions.core)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
