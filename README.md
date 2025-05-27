@@ -44,6 +44,34 @@ This project leverages a modern Android tech stack, including:
 * **Android Jetpack Libraries:** Navigation Compose, Lifecycle, etc.
 * **Gradle with Version Catalogs (`libs.versions.toml`):** For managing dependencies.
 
+## Project Structure
+
+The project is organized by feature, with core components shared across features, aligning with MVVM
+and Clean Architecture principles.
+
+* **`:app` Application Module**:
+    * The main entry point (`SpaceNewsActivity`, `SpacenewsApp`).
+    * Integrates all feature modules.
+    * Handles global dependency injection setup and top-level navigation.
+    * Depends on feature and core modules.
+
+* **`:feature`Feature Modules**:
+    * Encapsulate specific app functionalities (e.g., article browsing, detail).
+    * Typically structured internally into:
+        * `:presentation`: ViewModels, Composable Screens, feature-specific navigation.
+        * `:domain`: Use Cases, Repository Interfaces, Domain Models (pure Kotlin).
+        * `:data`: Repository Implementations, Remote (Retrofit API services, DTOs) and Local (Room
+          DAOs, Entities) Data Sources, Mappers.
+    * Depend on core modules; aim for independence from other feature modules.
+
+* **`:sdk` "SDK-like" Modules**:
+    * Contain reusable code across features.
+    * Examples:
+        * `:theme`: Common Composables, App Theme.
+        * `:network`: Base network setup (Retrofit), shared database configuration (Room).
+        * `:logger`: Logging setup.
+    * Reduce duplication and enforce consistency. Feature modules and `:app` depend on these.
+
 ## Architecture
 
 This application's architecture is **highly inspired by Clean Architecture principles**, aiming for
@@ -107,35 +135,8 @@ The architecture is generally structured around the following layers:
     * *This layer is entirely focused on UI concerns and should contain minimal to no business or
       presentation logic.*
 
-## Project Structure
-
-The project is organized by feature, with core components shared across features, aligning with MVVM
-and Clean Architecture principles.
-
-* **`:app` Application Module**:
-    * The main entry point (`SpaceNewsActivity`, `SpacenewsApp`).
-    * Integrates all feature modules.
-    * Handles global dependency injection setup and top-level navigation.
-    * Depends on feature and core modules.
-
-* **`:feature`Feature Modules**:
-    * Encapsulate specific app functionalities (e.g., article browsing, detail).
-    * Typically structured internally into:
-        * `:presentation`: ViewModels, Composable Screens, feature-specific navigation.
-        * `:domain`: Use Cases, Repository Interfaces, Domain Models (pure Kotlin).
-        * `:data`: Repository Implementations, Remote (Retrofit API services, DTOs) and Local (Room
-          DAOs, Entities) Data Sources, Mappers.
-    * Depend on core modules; aim for independence from other feature modules.
-
-* **`:sdk` "SDK-like" Modules**:
-    * Contain reusable code across features.
-    * Examples:
-        * `:theme`: Common Composables, App Theme.
-        * `:network`: Base network setup (Retrofit), shared database configuration (Room).
-        * `:logger`: Logging setup.
-    * Reduce duplication and enforce consistency. Feature modules and `:app` depend on these.
-
 ## Getting Started
+
 ### Prerequisites
 
 * Android Studio (latest stable version recommended)
