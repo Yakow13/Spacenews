@@ -16,7 +16,7 @@ class AuthorNameListConverter {
     }
 
     @TypeConverter
-    fun toAuthorList(data: String?): List<AuthorEntity> { // Returns non-nullable List<String>
+    fun toAuthorList(data: String?): List<AuthorEntity> {
         if (data.isNullOrBlank()) {
             return emptyList()
         }

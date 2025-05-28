@@ -8,11 +8,13 @@ plugins {
 
 android {
     namespace = "cz.weinzettl.spacenews"
+    //noinspection GradleDependency
     compileSdk = 35
 
     defaultConfig {
         applicationId = "cz.weinzettl.spacenews"
         minSdk = 28
+        //noinspection OldTargetApi
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -95,8 +97,8 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.junit)
     testImplementation(libs.coroutine.test)
-    //testImplementation(libs.kotest.assertions.core)
     testImplementation(libs.kotest.assertions.core)
+    testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

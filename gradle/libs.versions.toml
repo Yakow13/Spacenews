@@ -22,7 +22,8 @@ browser = "1.8.0"
 datastoreCoreAndroid = "1.1.7"
 mockk = "1.14.2"
 coroutineTest = "1.10.2"
-kotest = "5.9.0"
+kotest = "5.9.1"
+turbine = "1.2.0"
 
 [libraries]
 #AndroidX
@@ -81,6 +82,7 @@ androidx-browser = { group = "androidx.browser", name = "browser", version.ref =
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 coroutine-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutineTest" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

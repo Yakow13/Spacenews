@@ -43,6 +43,12 @@ This project leverages a modern Android tech stack, including:
 * **Material Design 3:** For UI components and theming.
 * **Android Jetpack Libraries:** Navigation Compose, Lifecycle, etc.
 * **Gradle with Version Catalogs (`libs.versions.toml`):** For managing dependencies.
+* **Testing:**
+    * **JUnit 5:** For unit testing.
+    * **MockK:** For creating mocks in Kotlin tests.
+    * **Turbine:** For testing Kotlin Flows.
+    * **Kotest Assertions:** For fluent assertions.
+    * **`kotlinx-coroutines-test`:** For testing coroutines.
 
 ## Project Structure
 

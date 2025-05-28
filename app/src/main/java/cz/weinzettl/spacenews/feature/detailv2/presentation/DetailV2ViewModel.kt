@@ -35,7 +35,7 @@ class DetailV2ViewModel(
                     _uiState.emit(newState)
                 },
                 onFailure = {
-                    //DetailUiState.Error(it)
+                    _uiState.emit(DetailV2UiState.Empty)
                 }
             )
         }
