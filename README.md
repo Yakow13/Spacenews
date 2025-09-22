@@ -52,14 +52,14 @@ This project leverages a modern Android tech stack, including:
 
 ## Project Structure
 
-The project is monolith organized by feature, with core components shared across features, aligning with MVVM
+The project is a monolith organized by feature, with core components shared across features, aligning with MVVM
 and Clean Architecture principles.
 
 * **`:app` Application Package**:
     * The main entry point (`SpaceNewsActivity`, `SpacenewsApp`).
-    * Integrates all feature packages.
+    * Integrates all features.
     * Handles global dependency injection setup and top-level navigation.
-    * Depends on feature and core packages.
+    * Depends on feature and core.
 
 * **`:feature`Feature Package**:
     * Encapsulate specific app functionalities (e.g., article browsing, detail).
@@ -68,7 +68,7 @@ and Clean Architecture principles.
         * `:domain`: Use Cases, Repository Interfaces, Domain Models (pure Kotlin).
         * `:data`: Repository Implementations, Remote (Retrofit API services, DTOs) and Local (Room
           DAOs, Entities) Data Sources, Mappers.
-    * Depend on core packages; aim for independence from other feature packages.
+    * Depend on core; aim for independence from other features.
 
 * **`:sdk` "SDK-like" Package**:
     * Contain reusable code across features.
